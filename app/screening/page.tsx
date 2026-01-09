@@ -48,9 +48,9 @@ export default function ScreeningPage() {
     []
   );
   const colorClasses = {
-    emerald: \"bg-emerald-50 border-emerald-200\",
-    amber: \"bg-amber-50 border-amber-200\",
-    rose: \"bg-rose-50 border-rose-200\",
+    emerald: "bg-emerald-50 border-emerald-200",
+    amber: "bg-amber-50 border-amber-200",
+    rose: "bg-rose-50 border-rose-200",
   } as const;
 
   const biodataForm = useForm<BiodataFormValues>({
