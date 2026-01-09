@@ -13,7 +13,7 @@ const biodataFields = [
   { name: "nama", label: "Nama", type: "text" },
   { name: "umurIbu", label: "Umur Ibu", type: "text" },
   { name: "hamilKe", label: "Hamil Ke", type: "select" },
-  { name: "perkiraanPersalinan", label: "Perkiraan Persalinan", type: "date" },
+  { name: "hpht", label: "Hari pertama Haid Terakhir (HPHT)", type: "date" },
   { name: "pendidikanIbu", label: "Pendidikan Ibu", type: "text" },
   { name: "pendidikanSuami", label: "Pendidikan Suami", type: "text" },
   { name: "pekerjaanIbu", label: "Pekerjaan Ibu", type: "textarea" },
@@ -37,6 +37,30 @@ const groupBySection = () => {
   }, {});
 };
 
+const formatDateDisplay = (value: Date) => {
+  const pad = (item: number) => String(item).padStart(2, "0");
+  return `${pad(value.getUTCDate())}-${pad(value.getUTCMonth() + 1)}-${value.getUTCFullYear()}`;
+};
+
+const calculateHpl = (hpht: string) => {
+  if (!hpht) return "";
+  const [year, month, day] = hpht.split("-").map(Number);
+  if (!year || !month || !day) return "";
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (Number.isNaN(date.getTime())) return "";
+
+  date.setUTCDate(date.getUTCDate() + 7);
+
+  if (month >= 4) {
+    date.setUTCMonth(date.getUTCMonth() - 3);
+    date.setUTCFullYear(date.getUTCFullYear() + 1);
+  } else {
+    date.setUTCMonth(date.getUTCMonth() + 9);
+  }
+
+  return formatDateDisplay(date);
+};
+
 export default function ScreeningPage() {
   const [step, setStep] = useState(1);
   const [biodata, setBiodata] = useState<BiodataRecord | null>(null);
@@ -58,7 +82,7 @@ export default function ScreeningPage() {
       nama: "",
       umurIbu: "",
       hamilKe: 1,
-      perkiraanPersalinan: "",
+      hpht: "",
       pendidikanIbu: "",
       pendidikanSuami: "",
       pekerjaanIbu: "",
@@ -85,15 +109,18 @@ export default function ScreeningPage() {
     answerForm.reset();
   };
 
+  const hphtValue = biodataForm.watch("hpht");
+  const hplValue = calculateHpl(hphtValue);
+
   return (
     <main className="space-y-6">
       <header className="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-emerald-600">
-            Screening Kesehatan
-          </p>
-          <h1 className="text-2xl font-semibold text-slate-900">
-            Form Screening Ibu Resiko Tinggi
+          <h1 className="text-2xl font-semibold uppercase text-slate-900">
+            SISTEM SCREENING KESEHATAN IBU HAMIL BERBASIS WEB
+            <span className="mt-2 block text-base font-semibold text-slate-700">
+              UNTUK DETEKSI DINI RISIKO KEHAMILAN DENGAN MENGGUNAKAN SKOR POEDJI ROCHJATI (KSPR)
+            </span>
           </h1>
           <p className="mt-1 text-sm text-slate-600">
             Isi data dan kuesioner sesuai kondisi ibu hamil.
@@ -126,7 +153,8 @@ export default function ScreeningPage() {
               nama: data.nama,
               umurIbu: data.umurIbu,
               hamilKe: Number(data.hamilKe),
-              perkiraanPersalinan: data.perkiraanPersalinan,
+              hpht: data.hpht,
+              hpl: calculateHpl(data.hpht),
               pendidikanIbu: data.pendidikanIbu,
               pendidikanSuami: data.pendidikanSuami,
               pekerjaanIbu: data.pekerjaanIbu,
@@ -179,6 +207,18 @@ export default function ScreeningPage() {
                 )}
               </label>
             ))}
+            <label className="flex flex-col gap-2 text-sm font-medium text-slate-700">
+              Hari Perkiraan Lahir (HPL)
+              <input
+                type="text"
+                value={hplValue}
+                readOnly
+                className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-600"
+              />
+              <span className="text-xs text-slate-500">
+                HPL dihitung otomatis berdasarkan HPHT.
+              </span>
+            </label>
           </div>
           <div className="flex flex-wrap gap-3">
             <button

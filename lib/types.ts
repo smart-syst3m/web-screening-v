@@ -2,7 +2,8 @@ export type BiodataRecord = {
   nama: string;
   umurIbu: string;
   hamilKe: number;
-  perkiraanPersalinan: string;
+  hpht: string;
+  hpl: string;
   pendidikanIbu: string;
   pendidikanSuami: string;
   pekerjaanIbu: string;
