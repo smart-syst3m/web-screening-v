@@ -4,11 +4,9 @@ export default function HomePage() {
   return (
     <main className="space-y-10">
       <section className="rounded-2xl bg-white p-8 shadow-sm">
-        <p className="text-sm font-semibold uppercase tracking-wide text-emerald-600">
-          Screening Kesehatan
-        </p>
+
         <h1 className="mt-3 text-3xl font-semibold text-slate-900">
-          Screening Ibu Resiko Tinggi
+          SISTEM SCREENING KESEHATAN IBU HAMIL BERBASIS WEB
         </h1>
         <p className="mt-4 text-slate-600">
           Lengkapi biodata dan kuesioner untuk mengetahui kategori risiko kehamilan.
