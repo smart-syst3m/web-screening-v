@@ -3,7 +3,7 @@ import { AnswerMap, Question, ScoringCategory, ScoringResult } from "./types";
 const scorecard: ScoringCategory[] = [
   {
     key: "KBR",
-    label: "KEL RISIKO: KBR",
+    label: "KEL RISIKO: Kehamilan Beresiko Rendah (KBR)",
     color: "emerald",
     perawatan: ["BIDAN"],
     tempat: ["TIDAK DIRUJUK"],
@@ -12,7 +12,7 @@ const scorecard: ScoringCategory[] = [
   },
   {
     key: "KRT",
-    label: "KEL RISIKO: KRT",
+    label: "KEL RISIKO: Kehamilan Risiko Tinggi (KRT)",
     color: "amber",
     perawatan: ["BIDAN", "DOKTER"],
     tempat: ["BIDAN", "PKM"],
@@ -21,7 +21,7 @@ const scorecard: ScoringCategory[] = [
   },
   {
     key: "KRST",
-    label: "KEL RISIKO: KRST",
+    label: "KEL RISIKO: Kehamilan Risiki Sangat Tinggi (KRST)",
     color: "rose",
     perawatan: ["DOKTER"],
     tempat: ["RUMAH SAKIT"],
